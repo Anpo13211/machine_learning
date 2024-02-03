@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サッカー試合予測チャットボット</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>サッカー試合予測チャットボット</h1>
+        <form action="/" method="post">
+            <div class="form-group">
+                <label for="user_team">あなたのチーム:</label>
+                <select name="user_team" id="user_team">
+                    {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="opponent_team">対戦相手のチーム:</label>
+                <select name="opponent_team" id="opponent_team">
+                    {% for team in teams %}
+                    <option value="{{ team }}">{{ team }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="venue">試合場所:</label>
+                <select name="venue" id="venue">
+                    {% for venue in venues %}
+                    <option value="{{ venue }}">{{ venue }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="question">ChatGPTに質問:</label>
+                <input type="text" id="question" name="question" placeholder="質問を入力...">
+            </div>
+            <button type="submit">予測と質問を送信</button>
+        </form>
+        <!-- 得点予測と失点予測を表示するセクションを削除またはコメントアウト
+        {% if predictions %}
+        <div class="predictions">
+            <h2>予測結果:</h2>
+            <p>得点予測: {{ predictions[0] }}</p>
+            <p>失点予測: {{ predictions[1] }}</p>
+        </div>
+        {% endif %}
+        -->
+        {% if chat_response %}
+        <div class="chat-response">
+            <h2>ChatGPTからの回答:</h2>
+            <p>{{ chat_response }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
