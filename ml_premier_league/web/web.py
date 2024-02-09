@@ -7,9 +7,6 @@ import os
 
 app = Flask(__name__)
 
-# 環境変数からOpenAI APIキーを読み込む
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
 # ラベルエンコーダーとモデルの読み込み
 with open('label_encoders.pkl', 'rb') as f:
     label_encoders = pickle.load(f)
@@ -28,14 +25,14 @@ teams = ['Liverpool', 'Manchester City', 'Arsenal', 'Aston Villa',
         'Southampton', 'Watford', 'Norwich City']
 venues = ['Home', 'Away']
 
-def ask_chatgpt(question, team_info, predicted_gf, predicted_ga):
+def ask_chatgpt(prompt):
     """
     ChatGPTに質問を送信し、回答を取得する。得点予測と失点予測も含める。
     """
     client = OpenAI()
 
     try:
-        prompt = f"どちらが勝ちますか？: {question}\nチーム情報: {team_info}\n得点予測: {predicted_gf}\n失点予測: {predicted_ga}\n回答:"
+        prompt = prompt
         stream = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
@@ -76,6 +73,10 @@ def index():
             'team': label_encoders['team'].transform([user_team])[0]
         }
         example_match_df = pd.DataFrame([example_match_data])
+
+        if user_team == opponent_team:
+            error_message = "同じチームを選択することはできません。別のチームを選択してください。"
+            return render_template('index.html', teams=teams, venues=venues, error_message=error_message)
         
         # 予測を行う
         predicted_gf = int(round(model_gf.predict(example_match_df)[0], 0))
@@ -85,11 +86,11 @@ def index():
         selected_teams = (user_team, opponent_team)
 
         # ChatGPTによる質問応答
-        if question: 
-            team_info = f"ユーザーチーム: {user_team}, 対戦相手: {opponent_team}, 会場: {venue}"
-            chat_response = ask_chatgpt(question, team_info, predicted_gf, predicted_ga)
+        if question:
+            prompt = f"{user_team}, {opponent_team}\n試合結果: {user_team}: {predicted_gf}\n{opponent_team}: {predicted_ga}\n両方のチームの特徴について述べた上で得失点を教えて下さい。"
+            chat_response = ask_chatgpt(prompt)
 
-    return render_template('index.html', teams=teams, venues=venues, predictions=predictions, selected_teams=selected_teams, chat_response=chat_response)
+    return render_template('index.html', teams = teams, venues=venues, predictions=predictions, selected_teams=selected_teams, chat_response=chat_response)
 
 if __name__ == '__main__':
     app.run(debug=True)
