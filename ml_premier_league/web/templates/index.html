@@ -4,55 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>サッカー試合予測チャットボット</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
     <div class="container">
-        <h1>サッカー試合予測チャットボット</h1>
+        
+        <img src="{{ url_for('static', filename='Premier_League_Logo.svg.png') }}" alt="Premier League Logo" class="premier-league-logo" />
+
+        <h1>プレミアリーグ サッカー試合予測サイト</h1>
         <form action="/" method="post">
-            <div class="form-group">
+            <!-- チーム選択のセクション -->
+            <div class="form-group stylish-select">
                 <label for="user_team">あなたのチーム:</label>
-                <select name="user_team" id="user_team">
+                <select name="user_team" id="user_team" class="form-control custom-select">
                     {% for team in teams %}
                     <option value="{{ team }}">{{ team }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group stylish-select">
                 <label for="opponent_team">対戦相手のチーム:</label>
-                <select name="opponent_team" id="opponent_team">
+                <select name="opponent_team" id="opponent_team" class="form-control custom-select">
                     {% for team in teams %}
                     <option value="{{ team }}">{{ team }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group">
+
+            <!-- 試合場所の選択セクション -->
+            <div class="form-group stylish-select">
                 <label for="venue">試合場所:</label>
-                <select name="venue" id="venue">
+                <select name="venue" id="venue" class="form-control custom-select">
                     {% for venue in venues %}
                     <option value="{{ venue }}">{{ venue }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-group">
+
+            <!-- 質問入力のセクション -->
+            <div class="form-group question-input">
                 <label for="question">ChatGPTに質問:</label>
-                <input type="text" id="question" name="question" placeholder="質問を入力...">
+                <input type="text" id="question" name="question" class="form-control form-control-lg" placeholder="質問を入力...">
             </div>
-            <button type="submit">予測と質問を送信</button>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-custom">予測と質問を送信</button>
+            </div>
         </form>
-        <!-- 得点予測と失点予測を表示するセクションを削除またはコメントアウト
+        
         {% if predictions %}
-        <div class="predictions">
-            <h2>予測結果:</h2>
-            <p>得点予測: {{ predictions[0] }}</p>
-            <p>失点予測: {{ predictions[1] }}</p>
+
+        <div class="prediction-container">
+            <span class="team-name">{{ selected_teams[0] }}</span>
+            <span class="prediction-score">{{ predictions[0] }} - {{ predictions[1] }}</span>
+            <span class="team-name">{{ selected_teams[1] }}</span>
         </div>
+
         {% endif %}
-        -->
+
+        <!-- エラーメッセージの表示 -->
+        {% if error_message %}
+        
+        <div class="alert alert-danger" role="alert">
+        {{ error_message }}
+        </div>
+        
+        {% endif %}
+
         {% if chat_response %}
         <div class="chat-response">
             <h2>ChatGPTからの回答:</h2>
-            <p>{{ chat_response }}</p>
+            <p>{{ chat_response|replace("\n", "<br>")|safe }}</p>
         </div>
         {% endif %}
     </div>
