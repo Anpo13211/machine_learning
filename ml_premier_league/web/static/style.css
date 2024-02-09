@@ -1,0 +1,117 @@
+/* カラースキームの更新 */
+:root {
+    --primary-color: #7d7d7d; /* 緑色系の主色 */
+    --secondary-color: #FFC107; /* アンバー色の副色 */
+    --background-color: #ffffff; /* 明るい背景色 */
+    --text-color: #333333; /* 濃いテキスト色 */
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 960px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: rgba(0, 0, 0, 0.728);
+    /* text-shadow: 1px 1px 2px rgba(213, 0, 0, 0.728); */
+    font-weight: bold;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* フォームとボタンのスタイリングの更新 */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: lighten(var(--primary-color), 10%);
+    border-color: lighten(var(--primary-color), 10%);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+/* レスポンシブデザインの強化 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+}
+/* セレクトボックスと質問入力フィールドのカスタマイズ */
+.stylish-select .custom-select {
+    border-radius: 0.25rem;
+    border: 1px solid var(--primary-color);
+    transition: border-color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.stylish-select .custom-select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+.question-input input.form-control-lg {
+    font-size: 1.25rem; /* フォントサイズを大きく */
+    padding: 1.25rem 1rem; /* 入力フィールドのパディングを増やす */
+    border: 2px solid var(--primary-color); /* ボーダーを目立たせる */
+    transition: border-color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.question-input input.form-control-lg:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 8px rgba(255, 193, 7, 0.5); /* フォーカス時のシャドウを強調 */
+}
+
+.btn-custom {
+    background-color: #007bff; /* ボタンの基本背景色 */
+    color: white; /* ボタンのテキスト色 */
+    border: 0 solid transparent; /* ボーダー */
+    padding: 0.75rem 1.5rem; /* パディング */
+    font-size: 1rem; /* フォントサイズ */
+    transition: background-color 0.3s, color 0.3s; /* トランジション効果 */
+}
+
+.btn-custom:hover, .btn-custom:focus {
+    background-color: #65a6eb; /* ホバーまたはフォーカス時の背景色 */
+    color: #ffffff; /* テキスト色を保持 */
+}
+
+.premier-league-logo {
+    width: 250px; /* 画像の幅を250pxに設定 */
+    height: auto; /* 高さを自動調整し、アスペクト比を保持 */
+    display: block; /* ブロックレベル要素として表示 */
+    margin: 0 auto; /* 上下のマージンをなくし、左右のマージンを自動で中央寄せ */
+    margin-bottom: 40px;
+}
+
+.prediction-container {
+    display: flex; /* Flexboxを使って要素を横並びにする */
+    justify-content: center; /* 中央寄せ */
+    align-items: center; /* 縦方向の中央寄せ */
+    font-size: 1.5rem; /* フォントサイズを大きくする */
+    margin: 20px 0; /* 上下のマージンを設定 */
+}
+
+.team-name {
+    margin: 0 10px; /* 名前の周りに余白を設定 */
+}
+
+.prediction-score {
+    margin: 0 10px; /* 点数の周りに余白を設定 */
+    font-weight: bold; /* フォントを太くする */
+    color: rgba(59, 40, 227, 0.728); /* 点数の色を設定 */
+    text-shadow: 1px 1px 2px rgba(138, 141, 226, 0.728);
+}
